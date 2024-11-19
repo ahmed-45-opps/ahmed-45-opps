@@ -1,0 +1,165 @@
+<<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Banking System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .balance {
+            font-size: 20px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .form-group {
+            margin: 15px 0;
+        }
+
+        input[type="number"], input[type="password"], button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+
+        .success {
+            color: green;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Banking System</h1>
+        <div class="balance">
+            <p>Current Balance: $<span id="balance">0.00</span></p>
+        </div>
+
+        <div class="form-group">
+            <label for="pin">Enter PIN:</label>
+            <input type="password" id="pin" placeholder="Enter PIN" maxlength="4">
+            <span class="error" id="pinError"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" placeholder="Enter amount" min="1">
+        </div>
+
+        <div class="form-group">
+            <button onclick="deposit()">Deposit</button>
+            <button onclick="withdraw()">Withdraw</button>
+        </div>
+
+        <div class="form-group">
+            <span id="message"></span>
+        </div>
+    </div>
+
+    <script>
+        // Simple Bank System Logic
+        let balance = 0;
+        const correctPin = "1234"; // Pin for authentication
+
+        // Deposit Function
+        function deposit() {
+            const pin = document.getElementById('pin').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const pinError = document.getElementById('pinError');
+            const message = document.getElementById('message');
+
+            if (pin !== correctPin) {
+                pinError.textContent = "Incorrect PIN.";
+                message.textContent = '';
+                return;
+            } else {
+                pinError.textContent = '';
+            }
+
+            if (isNaN(amount) || amount <= 0) {
+                message.textContent = "Please enter a valid amount.";
+                message.className = "error";
+                return;
+            }
+
+            balance += amount;
+            document.getElementById('balance').textContent = balance.toFixed(2);
+            message.textContent = Deposited $${amount.toFixed(2)};
+            message.className = "success";
+        }
+
+        // Withdraw Function
+        function withdraw() {
+            const pin = document.getElementById('pin').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const pinError = document.getElementById('pinError');
+            const message = document.getElementById('message');
+
+            if (pin !== correctPin) {
+                pinError.textContent = "Incorrect PIN.";
+                message.textContent = '';
+                return;
+            } else {
+                pinError.textContent = '';
+            }
+
+            if (isNaN(amount) || amount <= 0) {
+                message.textContent = "Please enter a valid amount.";
+                message.className = "error";
+                return;
+            }
+
+            if (amount > balance) {
+                message.textContent = "Insufficient funds.";
+                message.className = "error";
+                return;
+            }
+
+            balance -= amount;
+            document.getElementById('balance').textContent = balance.toFixed(2);
+            message.textContent = Withdrew $${amount.toFixed(2)};
+            message.className = "success";
+        }
+    </script>
+
+</body>
+</html>
